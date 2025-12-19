@@ -2,7 +2,7 @@
 
 This repository contains a **minimal, publishable-quality** Python implementation of the simulation used in the paper:
 
-**“Risk–Duration Score for Patch Prioritization in SME IoT Fleets”**
+**“Queueing Analysis by Simulation of Risk–Duration–Prioritized Patch Scheduling Under Gated Windows”**
 
 It implements:
 
