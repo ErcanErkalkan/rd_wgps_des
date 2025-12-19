@@ -75,6 +75,10 @@ Key configuration fields in `configs/run_default.yaml`:
 - The runner uses deterministic seeding derived from `seed`, scenario index, and policy index.
 - Results should be reproducible across runs given the same config.
 
-## License / citation
+## Citation
 
 If you reuse this code for academic work, please cite the accompanying paper.
+
+## License
+MIT License — see `LICENSE`.
+
