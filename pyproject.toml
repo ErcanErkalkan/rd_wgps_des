@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rs-wgps-des"
+version = "0.1.0"
+description = "Discrete-event simulation for RS score + window-gated patch scheduling (SAUCIS paper artifact)."
+requires-python = ">=3.10"
+dependencies = ["numpy", "pandas", "matplotlib", "PyYAML"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
