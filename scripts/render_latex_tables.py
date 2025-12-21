@@ -65,11 +65,11 @@ def _max_bound_cell(v) -> str:
 
 
 def _started_over_arrivals(row: pd.Series) -> str:
-    hs = _get(row, ["high_scheduled", "started_high", "started"], default=None)
+    hs = _get(row, ["high_started", "high_scheduled", "started_high", "started"], default=None)
     ha = _get(row, ["high_arrivals", "arrivals_high", "arrivals"], default=None)
 
     # already provided as string?
-    soa = _get(row, ["high_started_over_arrivals", "started_over_arrivals"], default=None)
+    soa = _get(row, ["high_started_over_arrivals_disp", "high_started_over_arrivals", "started_over_arrivals"], default=None)
     if isinstance(soa, str) and soa.strip():
         return soa.strip()
 
@@ -118,7 +118,7 @@ def _make_table_rows(df: pd.DataFrame, scenario: str, outfile: Path) -> None:
         maxb = _get(row, ["max_bound_h", "wait_max_bound_h", "max_bound"], default=None)
         maxb_cell = _max_bound_cell(maxb)
 
-        b95 = _get(row, ["backlog_p95_mean_days", "backlog_p95_mean_d", "backlog_p95_mean"], default=None)
+        b95 = _get(row, ["overline_B95_days", "backlog_p95_mean_days", "backlog_p95_mean_d", "backlog_p95_mean"], default=None)
         b95_cell = _cell(b95, decimals=2)
 
         started = _started_over_arrivals(row)
@@ -139,7 +139,9 @@ def main() -> None:
     if not rdir.is_absolute():
         rdir = (ROOT / rdir).resolve()
 
-    metrics_path = rdir / "metrics.csv"
+    metrics_path = rdir / "metrics_agg_paper.csv"
+    if not metrics_path.exists():
+        metrics_path = rdir / "metrics.csv"
     df = pd.read_csv(metrics_path)
 
     # Write LaTeX row snippets (paper tables: S1/S2/S3, High bucket, censoring-aware)
