@@ -11,8 +11,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 POLICY_ORDER = [
     "FIFO",
+    "SPT",
     "CVSS-only",
-    "R (risk-only)",
+    "R-risk-only",
+    "RD-only",
     "RD+WGPS",
 ]
 

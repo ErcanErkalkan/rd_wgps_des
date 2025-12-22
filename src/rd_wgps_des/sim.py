@@ -13,6 +13,7 @@ from .policies import (
     baseline_order_key,
     wgps_bucket_order_key,
     rd_score,
+    risk_only_R,
 )
 
 
@@ -269,7 +270,7 @@ def assign_buckets(
     high_q: float = 0.80,
     med_q: float = 0.50,
 ) -> None:
-    """Assign High/Medium/Low buckets by RD quantiles at ARRIVAL time (paper rule)."""
+    """Assign High/Medium/Low buckets by risk-only R_i quantiles at ARRIVAL time (reporting target)."""
     params.validate()
     if not jobs:
         return
@@ -278,7 +279,7 @@ def assign_buckets(
 
     scores = []
     for job in jobs.values():
-        s = rd_score(job, now_h=job.arrival_time_h, p=params)
+        s = risk_only_R(job, now_h=job.arrival_time_h, p=params)
         scores.append(float(s))
 
     scores_arr = np.asarray(scores, dtype=float)

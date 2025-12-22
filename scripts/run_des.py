@@ -27,10 +27,13 @@ from rd_wgps_des.plots import plot_ccdf, plot_backlog_timeseries, plot_utilizati
 # Internal policy IDs (used for config + folder names) mapped to paper-friendly labels (PolicyName).
 POLICY_SPECS: List[Tuple[str, str]] = [
     ("FIFO", "FIFO"),
+    ("SPT_only", "SPT"),
     ("CVSS_only", "CVSS-only"),
     ("R_risk_only", "R-risk-only"),
+    ("RD_only", "RD-only"),
     ("RD_WGPS", "RD+WGPS"),
 ]
+
 
 
 def _scenario_names_in_stable_order(cfg: dict) -> List[str]:

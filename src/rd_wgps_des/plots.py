@@ -63,7 +63,7 @@ def plot_ccdf(
     *,
     # If provided, draws censoring-aware KM CCDF (recommended to match paper when censoring exists)
     events_by_policy: Optional[Dict[str, Sequence[int]]] = None,
-    policy_order: Optional[Sequence[str]] = ("FIFO", "CVSS-only", "R (risk-only)", "RD+WGPS"),
+    policy_order: Optional[Sequence[str]] = ("FIFO", "SPT", "CVSS-only", "R-risk-only", "RD-only", "RD+WGPS"),
 ) -> None:
     """
     Plot CCDF curves for multiple policies.
@@ -124,7 +124,7 @@ def plot_backlog_timeseries(
     *,
     key: str = "backlog_age_p95_High",
     time_key_candidates: Sequence[str] = ("time_h", "t_h", "sim_time_h"),
-    policy_order: Optional[Sequence[str]] = ("FIFO", "CVSS-only", "R (risk-only)", "RD+WGPS"),
+    policy_order: Optional[Sequence[str]] = ("FIFO", "SPT", "CVSS-only", "R-risk-only", "RD-only", "RD+WGPS"),
 ) -> None:
     """
     Plot backlog-age time series (e.g., High bucket P95) for multiple policies.
@@ -174,7 +174,7 @@ def plot_utilization_per_window(
     outpath: str,
     title: str = "",
     *,
-    policy_order: Optional[Sequence[str]] = ("FIFO", "CVSS-only", "R (risk-only)", "RD+WGPS"),
+    policy_order: Optional[Sequence[str]] = ("FIFO", "SPT", "CVSS-only", "R-risk-only", "RD-only", "RD+WGPS"),
 ) -> None:
     """
     Plot per-window utilization across policies.

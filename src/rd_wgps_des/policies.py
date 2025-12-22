@@ -7,7 +7,7 @@ from .models import PatchJob
 
 
 # Paper policy names
-PolicyName = Literal["FIFO", "CVSS-only", "R-risk-only", "RD+WGPS"]
+PolicyName = Literal["FIFO", "SPT", "CVSS-only", "R-risk-only", "RD-only", "RD+WGPS"]
 
 
 @dataclass(frozen=True)
@@ -77,6 +77,10 @@ def baseline_order_key(job: PatchJob, now_h: float, policy: PolicyName, p: RDPar
     if policy == "FIFO":
         return (float(job.arrival_time_h), int(job.job_id))
 
+    if policy == "SPT":
+        # shortest processing time (duration-only)
+        return (float(job.duration_h), float(job.arrival_time_h), int(job.job_id))
+
     if policy == "CVSS-only":
         # higher severity first; ties by arrival
         return (-float(job.cvss), float(job.arrival_time_h), int(job.job_id))
@@ -84,6 +88,10 @@ def baseline_order_key(job: PatchJob, now_h: float, policy: PolicyName, p: RDPar
     if policy == "R-risk-only":
         R = risk_only_R(job, now_h, p)
         return (-float(R), float(job.arrival_time_h), int(job.job_id))
+
+    if policy == "RD-only":
+        RD = rd_score(job, now_h, p)
+        return (-float(RD), float(job.arrival_time_h), int(job.job_id))
 
     if policy == "RD+WGPS":
         RD = rd_score(job, now_h, p)

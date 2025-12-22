@@ -37,8 +37,10 @@ from rd_wgps_des.plots import (
 # Internal policy IDs must match PolicyName literals in policies.py
 POLICY_SPECS = [
     ("FIFO", "FIFO"),
+    ("SPT", "SPT"),
     ("CVSS-only", "CVSS-only"),
-    ("R-risk-only", "R (risk-only)"),
+    ("R-risk-only", "R-risk-only"),
+    ("RD-only", "RD-only"),
     ("RD+WGPS", "RD+WGPS"),
 ]
 
@@ -47,8 +49,10 @@ def _stable_policy_seed_offset(pol_id: str) -> int:
     # deterministic offsets (do NOT use hash(); it's randomized across runs)
     table = {
         "FIFO": 10,
+        "SPT": 15,
         "CVSS-only": 20,
         "R-risk-only": 30,
+        "RD-only": 35,
         "RD+WGPS": 40,
     }
     return table.get(pol_id, 0)

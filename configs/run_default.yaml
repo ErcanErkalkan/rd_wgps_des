@@ -1,26 +1,23 @@
-run_name: run_default
+run_name: run_default_ms30_v2
 seed: 42
 horizon_days: 56
-
-# Day index convention in paper: 0=Mon, 1=Tue, ..., 5=Sat, 6=Sun
 calendar:
-  dow_indexing: "0=Mon"
-
+  dow_indexing: 0=Mon
 gating:
   enabled: true
-  arrivals_during_active_window: defer_to_next_window  # paper: not eligible until next gating epoch
-
+  arrivals_during_active_window: defer_to_next_window
 windows:
   base:
-    days_of_week: [1, 5]     # Tue=1, Sat=5
+    days_of_week:
+    - 1
+    - 5
     start_hour: 22
     length_hours: 4
     parallelism: 1
-    q_examinations_per_window: 12   # paper: administrative cap q(w)=12 (candidate examinations/window)
-
+    q_examinations_per_window: 12
 scenarios:
   S1_normal:
-    description: "Normal flow"
+    description: Normal flow
     arrival:
       weekday_per_day: 2.0
       weekend_per_day: 0.8
@@ -29,7 +26,6 @@ scenarios:
         enabled: false
     durations:
       dist: lognormal
-      # Parameters reported in paper as (mean hours, sigma in log-space)
       it_mean_h: 0.6
       it_sigma: 0.45
       iot_mean_h: 0.8
@@ -37,9 +33,8 @@ scenarios:
       ot_mean_h: 1.6
       ot_sigma: 0.65
     windows_override: null
-
   S2_kev_burst:
-    description: "KEV burst"
+    description: KEV burst
     arrival:
       weekday_per_day: 2.0
       weekend_per_day: 0.8
@@ -48,7 +43,7 @@ scenarios:
         enabled: true
         start_day: 21
         duration_days: 7
-        kev_rate_burst: 0.40
+        kev_rate_burst: 0.4
     durations:
       dist: lognormal
       it_mean_h: 0.6
@@ -58,9 +53,8 @@ scenarios:
       ot_mean_h: 1.6
       ot_sigma: 0.65
     windows_override: null
-
   S3_lowcap_hetero:
-    description: "Low capacity & high heterogeneity"
+    description: Low capacity & high heterogeneity
     arrival:
       weekday_per_day: 2.0
       weekend_per_day: 0.8
@@ -76,67 +70,74 @@ scenarios:
       ot_mean_h: 2.0
       ot_sigma: 0.95
     windows_override:
-      days_of_week: [2]       # Wed only
+      days_of_week:
+      - 2
       start_hour: 22
       length_hours: 2
       parallelism: 1
-      q_examinations_per_window: 6  # paper: max 6 examinations/window
-
+      q_examinations_per_window: 6
 policy:
   weights:
     wC: 0.35
     wX: 0.25
     wA: 0.15
     wK: 0.15
-    wT: 0.10
+    wT: 0.1
   Amax_days: 30
   eps_hours: 0.25
-
   fairness:
     horizon_H: 3
-    enabled_for: ["RD_WGPS"]        # paper: anti-starvation only for RD+WGPS
+    enabled_for:
+    - RD_WGPS
     enabled_for_baselines: false
-
 buckets:
-  # paper: Bucket quantiles (High/Med) = 0.80 / 0.50
-  high_quantile: 0.80
-  med_quantile: 0.50
-
+  high_quantile: 0.8
+  med_quantile: 0.5
 policies_compared:
-  - FIFO
-  - CVSS_only
-  - R_risk_only
-  - RD_WGPS
-
-# Synthetic signal generator (paper Table: "Default synthetic input generator used in DES")
+- FIFO
+- SPT_only
+- CVSS_only
+- R_risk_only
+- RD_only
+- RD_WGPS
 signals:
   criticality:
-    levels: [0.25, 0.50, 0.75, 1.00]
-    # paper: "configurable probabilities (fleet mix)"
-    probs: [0.20, 0.35, 0.30, 0.15]
-
+    levels:
+    - 0.25
+    - 0.5
+    - 0.75
+    - 1.0
+    probs:
+    - 0.2
+    - 0.35
+    - 0.3
+    - 0.15
   exposure:
-    p_ext: 0.25                 # paper: p_ext (configurable)
-    ext_beta: [6, 2]             # X|external ~ Beta(6,2)
-    int_beta: [2, 5]             # X|internal ~ Beta(2,5)
-
+    p_ext: 0.25
+    ext_beta:
+    - 6
+    - 2
+    int_beta:
+    - 2
+    - 5
   vuln_age_days:
-    # paper: A ~ min( Exp(lambda_A), A_cap )
-    lambda_A: 0.0833333333333    # example: 1/12 per day (tunable)
-    A_cap_days: 180              # truncation cap (tunable)
-    normalize_by_Amax_days: 30   # should match policy.Amax_days
-
+    lambda_A: 0.0833333333333
+    A_cap_days: 180
+    normalize_by_Amax_days: 30
   kev:
-    # note: actual p_KEV comes from scenario arrival kev_rate_normal / burst kev_rate_burst
     bernoulli_from_scenario: true
-
   threat_proxy_T:
-    # paper: if K=1 -> Beta(5,2) else Beta(2,6)
-    when_kev_beta: [5, 2]
-    when_not_kev_beta: [2, 6]
-
+    when_kev_beta:
+    - 5
+    - 2
+    when_not_kev_beta:
+    - 2
+    - 6
   cvss_synthetic_S:
-    # paper: severity S in [0,10], correlated with KEV
-    when_kev_beta: [5, 2]        # S=10*Y, Y~Beta(5,2)
-    when_not_kev_beta: [2, 3]    # S=10*Y, Y~Beta(2,3)
+    when_kev_beta:
+    - 5
+    - 2
+    when_not_kev_beta:
+    - 2
+    - 3
     scale: 10
