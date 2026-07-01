@@ -7,11 +7,11 @@ This repository contains a **minimal, publishable-quality** Python implementatio
 It implements:
 
 - **RD score** (*Risk–Duration*): a “risk-per-unit-time” ranking
-  \[
+  $$
   RD_i=\frac{R_i}{\max(D_i,\varepsilon)},\quad
   R_i=w_C C_i+w_X X_i+w_A\tilde{A}_i+w_K K_i+w_T T_i,\quad
   \tilde{A}_i=\min(A_i/A_{\max},1)
-  \]
+  $$
 - **WGPS** (*Window-Gated Patch Scheduler*, Algorithm 1): at each window opening (gating epoch),
   build **bucketed snapshot queues** (High/Med/Low), examine at most **q(w)** candidates, and start a job only if
   it is admissible **and** fits the residual window capacity; otherwise it is **deferred to the next window**.
@@ -77,7 +77,9 @@ Key configuration fields in `configs/run_default.yaml`:
 
 ## Citation
 
-If you reuse this code for academic work, please cite the accompanying paper.
+If you reuse this code for academic work, please cite the accompanying paper:
+
+Erkalkan, E. (2026). Queueing Analysis by Simulation of Risk Duration Prioritized Patch Scheduling Under Gated Windows. *Sakarya University Journal of Computer and Information Sciences*, *9*(3), 739-753. [https://doi.org/10.35377/saucis...1846583](https://doi.org/10.35377/saucis...1846583)
 
 ## License
 MIT License — see `LICENSE`.

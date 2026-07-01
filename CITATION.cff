@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+type: software
+authors:
+  - family-names: Erkalkan
+    given-names: Ercan
+    orcid: "https://orcid.org/0000-0002-5000-4848"
+title: "RD-WGPS DES: Queueing Analysis by Simulation of Risk-Duration-Prioritized Patch Scheduling Under Gated Windows"
+version: 1.0.0
+date-released: 2026-07-01
+repository-code: "https://github.com/ErcanErkalkan/rd_wgps_des"
+license: MIT
+keywords:
+  - discrete-event simulation
+  - queueing theory
+  - patch scheduling
+  - risk analysis
+  - prioritization
+references:
+  - authors:
+      - family-names: Erkalkan
+        given-names: Ercan
+    title: "Queueing Analysis by Simulation of Risk Duration Prioritized Patch Scheduling Under Gated Windows"
+    journal: "Sakarya University Journal of Computer and Information Sciences"
+    volume: 9
+    issue: 3
+    pages: "739-753"
+    year: 2026
+    doi: "10.35377/saucis...1846583"
